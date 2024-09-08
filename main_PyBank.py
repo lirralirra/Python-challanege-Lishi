@@ -1,13 +1,14 @@
 import os
 import csv
-import pandas as pd
 
-#cereal_csv = pd.read_csv("Resources/budget_data.csv")
+#check the working directory
+current_dir = os.getcwd()
+print(f"Current working directory: {current_dir}")
 
 # Define the path to the CSV file
 file_path = os.path.join('resources', 'budget_data.csv')
 
-# Initialize variables
+# define initialize variables
 total_months = 0
 net_total = 0
 profit_losses = []
@@ -17,10 +18,11 @@ dates = []
 with open(file_path, newline='') as csvfile:
     csvreader = csv.reader(csvfile)
     header = next(csvreader)  # Skip the header row
+    print(f"Header: {header}") # check the header
 
     for row in csvreader:
         date = row[0]
-        profit_loss = int(row[1])
+        profit_loss = int(row[1]) # change profit/losses to profit_loss
 
         # Append data to lists
         dates.append(date)
@@ -40,11 +42,24 @@ greatest_decrease = min(changes)
 greatest_increase_date = dates[changes.index(greatest_increase) + 1]  # +1 to get the corresponding date
 greatest_decrease_date = dates[changes.index(greatest_decrease) + 1]  # +1 to get the corresponding date
 
-# Print the results
-print("Financial Analysis")
-print("----------------------------")
-print(f"Total Months: {total_months}")
-print(f"Net Total Profit/Losses: ${net_total}")
-print(f"Average Change: ${average_change:.2f}")
-print(f"Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase})")
-print(f"Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})")
+# Write results to a text file in the Analysis folder
+output_path = os.path.join('Analysis', 'ByBank_analysis_result.txt')
+
+with open(output_path, 'w') as file:
+    # Write the results to both console and file
+    output = [
+        "Financial Analysis",
+        "----------------------------",
+        f"Total Months: {total_months}",
+        f"Total Profit/Losses: ${net_total}",
+        f"Average Change: ${average_change:.2f}",
+        f"Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase})",
+        f"Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})"
+    ]
+
+#print the results to the terminal
+    for line in output:
+        print(line)
+        file.write(line + '\n')
+
+print(f"\nResults have been written to {output_path}")
