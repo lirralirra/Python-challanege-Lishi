@@ -4,7 +4,7 @@ import pandas as pd
 election_data = pd.read_csv('Resources/election_data.csv')
 
 # Calculate the total number of votes cast
-total_votes = election_data['Voter ID'].count()
+total_votes = election_data['Ballot ID'].count()
 
 # Get a complete list of candidates who received votes
 candidates = election_data['Candidate'].unique()
